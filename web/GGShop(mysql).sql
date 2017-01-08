@@ -35,16 +35,6 @@ Alamat varchar(100) not null,
 Komentar text not null
 );
 
-CREATE TABLE BestSeller(
-IdBestSeller varchar(2) not null auto_increment,
-	PRIMARY KEY (IdBestSeller),
-IdProduk varchar(2) not null,
-	FOREIGN KEY(IdProduk) REFERENCES Produk(IdProduk),
-IdBrand varchar(2) not null,
-	FOREIGN KEY(IdBrand) REFERENCES Brand(IdBrand),
-IdKategori varchar(2) not null,
-	FOREIGN KEY(IdKategori) REFERENCES Kategori(IdKategori)
-);
 
 CREATE TABLE Contact(
 IdContact varchar(2) not null auto_increment,
