@@ -1,5 +1,5 @@
 CREATE TABLE Brand(
-IdBrand varchar(2) not null,
+IdBrand varchar(2) not null auto_increment,
 	PRIMARY KEY (IdBrand),
 NamaBrand varchar (50) not null,
 Tentang text null
@@ -13,7 +13,7 @@ NamaKategori varchar(50) not null
 );
 
 CREATE TABLE Produk(
-IdProduk varchar(2) not null,
+IdProduk varchar(2) not null auto_increment,
 	PRIMARY KEY (IdProduk),
 IdBrand varchar(2) not null,
 	FOREIGN KEY (IdBrand) REFERENCES Brand(IdBrand),
@@ -36,7 +36,7 @@ Komentar text not null
 );
 
 CREATE TABLE BestSeller(
-IdBestSeller varchar(2) not null,
+IdBestSeller varchar(2) not null auto_increment,
 	PRIMARY KEY (IdBestSeller),
 IdProduk varchar(2) not null,
 	FOREIGN KEY(IdProduk) REFERENCES Produk(IdProduk),
@@ -47,7 +47,7 @@ IdKategori varchar(2) not null,
 );
 
 CREATE TABLE Contact(
-IdContact varchar(2) not null,
+IdContact varchar(2) not null auto_increment,
 	PRIMARY KEY (IdContact),
 Email varchar(50) not null,
 NoTelp int not null,
@@ -59,3 +59,19 @@ IdAdministrator varchar(2) not null,
 username varchar(60) not null,
 password varchar(15) not null
 );
+
+
+INSERT INTO `kategori`(`IdKategori`, `NamaKategori`) VALUES (1,'Mouse');
+INSERT INTO `kategori`(`IdKategori`, `NamaKategori`) VALUES (2,'Keyboard');
+INSERT INTO `kategori`(`IdKategori`, `NamaKategori`) VALUES (3,'Headset');
+INSERT INTO `kategori`(`IdKategori`, `NamaKategori`) VALUES (4,'Controller');
+
+INSERT INTO `brand`(`IdBrand`, `NamaBrand`) VALUES (1,'SteelSeries');
+INSERT INTO `brand`(`IdBrand`, `NamaBrand`) VALUES (2,'Razer');
+INSERT INTO `brand`(`IdBrand`, `NamaBrand`) VALUES (3,'Logitech');
+
+INSERT INTO `admin`(`username`, `password`) VALUES ('admin','admin');
+
+INSERT INTO `feedback`(`Nama`, `Email`, `NoTelp`, `Komentar`) VALUES ('Paijo', 'paijo@paijo.com', 089089089089, 'Bagus produknya, lengkap dengan garansi yang gampang diklaim' )
+
+INSERT INTO `contact`(`Email`, `NoTelp`, `Alamat`) VALUES ('gearinggs@gmail.com', 080989999, 'Jl. Gajah Mungkur no. 10')
