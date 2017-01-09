@@ -95,7 +95,7 @@ $data = $siswa->readAllKategori();
   				
   					<div class="content-box-large">
 		  				<div class="panel-heading">
-							<div class="panel-title">Feedback</div>
+							<div class="panel-title">Daftar Produk</div>
 							
 							<div class="panel-options">
 								<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
@@ -112,17 +112,19 @@ $data = $siswa->readAllKategori();
 				                  <th>Name</th>
 				                  <th>Harga</th>
 				                  <th>Deskripsi</th>
+				                  <th>Opsi</th>
 				                </tr>
 				              </thead>
 				              <tbody>
 				                <?php
 									include('koneksi.php');	
 
-									$query = mysqli_query($koneksi, "SELECT * FROM produk JOIN kategori JOIN brand ON Produk.IdKategori = Kategori.IdKategori AND Produk.IdBrand = Brand.IdBrand ORDER BY IdProduk DESC") or die(mysqli_error());
+									$query = mysqli_query($koneksi, "SELECT * FROM produk JOIN brand on produk.idbrand = brand.idbrand JOIN kategori on produk.idKategori = kategori.idKategori ORDER BY idproduk DESC") or die(mysqli_error());
 
 									if (mysqli_num_rows($query) == 0) { 
 										echo '<tr><td colspan="6">Tidak ada data!</td></tr>';
 									} else {
+										
 										while ( $data = mysqli_fetch_assoc($query)) {
 											echo "<tr>";
 											echo "<td>".$data['IdProduk']."</td>";
@@ -131,16 +133,16 @@ $data = $siswa->readAllKategori();
 											echo "<td>".$data['NamaProduk']."</td>";
 											echo "<td>".$data['Harga']."</td>";
 											echo "<td>".$data['Deskripsi']."</td>";
-											echo '<td><a href="update_produk.php?a='.$data['IdProduk'].'">Edit</a></td>';
-											echo '<td><a href="hapus.php?a='.$data['IdProduk'].'" onclick="return confirm(\'Apakah anda yakin ingin menghapus data?\')">Hapus</a></td>';
-											
+											echo '<td><a href="edit_produk.php?id='.$data['IdProduk'].'">Edit</a> / <a href="hapus.php?id='.$data['IdProduk'].'" onclick="return confirm(\'Apakah anda yakin ingin menghapus data?\')">Hapus</a></td>';
 											echo '</tr>';
+
+											
 
 									}
 								}
 								mysqli_close($koneksi);
 								?>
-				              </tbody>
+				              
 				            </table>
 		  				</div>
 		  			</div>

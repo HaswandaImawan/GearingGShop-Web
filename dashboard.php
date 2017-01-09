@@ -5,7 +5,6 @@ if (!$_SESSION['logon']){
     die();
 }
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>

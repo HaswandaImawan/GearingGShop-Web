@@ -5,7 +5,6 @@ if (!$_SESSION['logon']){
     die();
 }
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -101,25 +100,31 @@ if (!$_SESSION['logon']){
 				                  <th>E-mail</th>
 				                  <th>Phone</th>
 				                  <th>Message</th>
+				                  <th>Opsi</th>
 				                </tr>
 				              </thead>
 				              <tbody>
 				                <?php
 									include('koneksi.php');	
 
-									$query = mysqli_query($koneksi, "SELECT * FROM feedback ORDER BY IdFeedback DESC") or die(mysqli_error());
+									$query = mysqli_query($koneksi, "SELECT * FROM feedback ORDER BY idfeedback DESC") or die(mysqli_error());
 
 									if (mysqli_num_rows($query) == 0) { 
 										echo '<tr><td colspan="6">Tidak ada data!</td></tr>';
 									} else {
+										$no = 1;
 										while ( $data = mysqli_fetch_assoc($query)) {
 											echo "<tr>";
-											echo "<td>".$data['IdFeedback']."</td>";
-											echo "<td>".$data['Nama']."</td>";
+											echo "<td>".$no."</td>";
+											echo "<td>".$data['Name']."</td>";
 											echo "<td>".$data['Email']."</td>";
-											echo "<td>".$data['NoTelp']."</td>";
-											echo "<td>".$data['Komentar']."</td>";
+											echo "<td>".$data['Phone']."</td>";
+											echo "<td>".$data['Message']."</td>";
+											echo '<td><a href="hapus2.php?id='.$data['IdFeedback'].'" onclick="return confirm(\'Apakah anda yakin ingin menghapus data?\')">Hapus</a></td>';
 											echo '</tr>';
+
+												$no++;
+
 									}
 								}
 								mysqli_close($koneksi);

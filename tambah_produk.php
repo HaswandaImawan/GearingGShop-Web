@@ -19,53 +19,9 @@ if(isset($_POST['kirim'])){
 	$NamaProduk	= $_POST['in_NamaProduk'];
 	$Harga 		= $_POST['in_Harga'];
 	$Deskripsi 	= $_POST['in_Deskripsi'];
+	$Foto		= $_POST['in_Foto'];
 	
-	
-	// Pengecekan file $foto
-	$target_dir = "uploads/";
-	$target_file = $target_dir . basename($_FILES["in_Foto"]["name"]);
-	$uploadOk = 1;
-	$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-	// Check if image file is a actual image or fake image
-	if(isset($_POST["submit"])) {
-		$check = getimagesize($_FILES["in_Foto"]["tmp_name"]);
-		if($check !== false) {
-			echo "File is an image - " . $check["mime"] . ".";
-			$uploadOk = 1;
-		} else {
-			echo "File is not an image.";
-			$uploadOk = 0;
-		}
-	}
-	// Check if file already exists
-	if (file_exists($target_file)) {
-		echo "Sorry, file already exists.";
-		$uploadOk = 0;
-	}
-	// Check file size
-	if ($_FILES["in_Foto"]["size"] > 2000000) {
-		echo "Sorry, your file is too large.";
-		$uploadOk = 0;
-	}
-	// Allow certain file formats
-	if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-		&& $imageFileType != "gif" ) {
-		echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-		$uploadOk = 0;
-}
-	// Check if $uploadOk is set to 0 by an error
-	if ($uploadOk == 0) {
-		echo "Sorry, your file was not uploaded.";
-	// if everything is ok, try to upload file
-	} else {
-    if (move_uploaded_file($_FILES["in_Foto"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["in_Foto"]["name"]). " has been uploaded.";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-		}
-	}
-	$Foto	= $_FILES['in_Foto']["name"];
-	$tambah = $produk->createProduk($IdBrand, $IdKategori, $NamaProduk, $Harga, $Deskripsi, $Foto, '');
+	$tambah = $produk->createProduk('',$IdBrand, $IdKategori, $NamaProduk, $Harga, $Deskripsi, $Foto);
 	echo "Data Produk berhasil ditambahkan";
 }
 ?>
@@ -163,7 +119,7 @@ if(isset($_POST['kirim'])){
 					        </div>
 							
 			  				<div class="panel-body">
-			  					<form action="tambah_produk.php" method="post" enctype="multipart/form-data">
+			  					<form action="tambah_produk.php" method="post">
 									<fieldset>
 										<div class="form-group">
 											<label>Brand</label><br />
@@ -186,23 +142,23 @@ if(isset($_POST['kirim'])){
 										
 										<div class="form-group">
 											<label>Nama Produk</label>
-											<input class="form-control" placeholder="Nama Produk" type="text" name="in_NamaProduk" required="">
+											<input class="form-control" placeholder="Nama Produk" type="text" name="in_NamaProduk">
 										</div>
 										
 										<div class="form-group">
 											<label>Harga</label>
-											<input class="form-control" placeholder="Harga" type="text" name="in_Harga" required="">
+											<input class="form-control" placeholder="Harga" type="text" name="in_Harga">
 										</div>
 										
 										<div class="form-group">
 											<label>Deskripsi</label>
-											<textarea name="in_Deskripsi" class="form-control" placeholder="Deskripsi" rows="3" required=""></textarea>
+											<textarea name="in_Deskripsi" class="form-control" placeholder="Deskripsi" rows="3"></textarea>
 										</div>
 										
 										<div class="form-group">
 											<label class="col-md-2 control-label">Upload Gambar</label>
 											<div class="col-md-10">
-												<input type="file" class="btn btn-default" id="in_Foto" name="in_Foto" required="">
+												<input type="file" class="btn btn-default" id="exampleInputFile1" name="in_Foto">
 												<p class="help-block">
 													Pilih gambar sesuai dengan produk yang diinput
 												</p>
