@@ -35,14 +35,6 @@ Message text not null
 );
 
 
-CREATE TABLE Contact(
-IdContact varchar(2) not null auto_increment,
-	PRIMARY KEY (IdContact),
-Email varchar(50) not null,
-NoTelp int not null,
-Alamat varchar(100) not null
-);
-
 CREATE TABLE admin(
 username varchar(60) not null,
 password varchar(15) not null
@@ -62,4 +54,3 @@ INSERT INTO `admin`(`username`, `password`) VALUES ('admin','admin');
 
 INSERT INTO `feedback`(`Name`, `Email`, `Phone`, `Message`) VALUES ('Paijo', 'paijo@paijo.com', 089089089089, 'Bagus produknya, lengkap dengan garansi yang gampang diklaim' )
 
-INSERT INTO `contact`(`Email`, `NoTelp`, `Alamat`) VALUES ('gearinggs@gmail.com', 080989999, 'Jl. Gajah Mungkur no. 10')
