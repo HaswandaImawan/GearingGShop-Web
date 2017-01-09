@@ -119,7 +119,7 @@ $data = $siswa->readAllKategori();
 				                <?php
 									include('koneksi.php');	
 
-									$query = mysqli_query($koneksi, "SELECT * FROM produk JOIN brand on produk.idbrand = brand.idbrand JOIN kategori on produk.idKategori = kategori.idKategori ORDER BY idproduk DESC") or die(mysqli_error());
+									$query = mysqli_query($koneksi, "SELECT * FROM produk JOIN brand on produk.idbrand = brand.idbrand JOIN kategori on produk.idKategori = kategori.idKategori ORDER BY idproduk ASC") or die(mysqli_error());
 
 									if (mysqli_num_rows($query) == 0) { 
 										echo '<tr><td colspan="6">Tidak ada data!</td></tr>';
