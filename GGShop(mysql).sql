@@ -28,11 +28,10 @@ Foto varchar(50) null
 CREATE TABLE Feedback(
 IdFeedback int not null auto_increment,
 	PRIMARY KEY (IdFeedback),
-Nama varchar(50) not null,
+Name varchar(50) not null,
 Email varchar(50) not null,
-NoTelp int not null,
-Alamat varchar(100) not null,
-Komentar text not null
+Phone int not null,
+Message text not null
 );
 
 
