@@ -1,3 +1,11 @@
+<?php
+if (!session_id()) session_start();
+if (!$_SESSION['logon']){ 
+    header("Location:index.php");
+    die();
+}
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -25,7 +33,7 @@
 	           <div class="col-md-5">
 	              <!-- Logo -->
 	              <div class="logo">
-	                 <h1><a href="index.html">Bootstrap Admin Theme</a></h1>
+	                 <h1><a href="dashboard.php">Bootstrap Admin Theme</a></h1>
 	              </div>
 	           </div>
 	           <div class="col-md-5">
@@ -47,8 +55,7 @@
 	                      <li class="dropdown">
 	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
 	                        <ul class="dropdown-menu animated fadeInUp">
-	                          <li><a href="profile.html">Profile</a></li>
-	                          <li><a href="login.html">Logout</a></li>
+	                          <li><a href="logout.php">Logout</a></li>
 	                        </ul>
 	                      </li>
 	                    </ul>
@@ -65,7 +72,7 @@
 		  	<div class="sidebar content-box" style="display: block;">
                 <ul class="nav">
                     <!-- Main menu -->
-                    <li><a href="index.html"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+                    <li><a href="dashboard.php"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
                     <li><a href="tambah_produk.php"><i class="glyphicon glyphicon-calendar"></i> Tambah Produk</a></li>
                     <li><a href="daftar_produk.php"><i class="glyphicon glyphicon-stats"></i> Daftar Produk</a></li>
                     <li class="current"><a href="feedback.php"><i class="glyphicon glyphicon-list"></i> Feedback</a></li>
@@ -94,31 +101,25 @@
 				                  <th>E-mail</th>
 				                  <th>Phone</th>
 				                  <th>Message</th>
-				                  <th>Opsi</th>
 				                </tr>
 				              </thead>
 				              <tbody>
 				                <?php
 									include('koneksi.php');	
 
-									$query = mysqli_query($koneksi, "SELECT * FROM feedback ORDER BY idfeedback DESC") or die(mysqli_error());
+									$query = mysqli_query($koneksi, "SELECT * FROM feedback ORDER BY IdFeedback DESC") or die(mysqli_error());
 
 									if (mysqli_num_rows($query) == 0) { 
 										echo '<tr><td colspan="6">Tidak ada data!</td></tr>';
 									} else {
-										$no = 1;
 										while ( $data = mysqli_fetch_assoc($query)) {
 											echo "<tr>";
-											echo "<td>".$no."</td>";
-											echo "<td>".$data['name']."</td>";
-											echo "<td>".$data['email']."</td>";
-											echo "<td>".$data['phone']."</td>";
-											echo "<td>".$data['message']."</td>";
-											echo '<td><a href="hapus2.php?id='.$data['IdFeedback'].'" onclick="return confirm(\'Apakah anda yakin ingin menghapus data?\')">Hapus</a></td>';
+											echo "<td>".$data['IdFeedback']."</td>";
+											echo "<td>".$data['Nama']."</td>";
+											echo "<td>".$data['Email']."</td>";
+											echo "<td>".$data['NoTelp']."</td>";
+											echo "<td>".$data['Komentar']."</td>";
 											echo '</tr>';
-
-												$no++;
-
 									}
 								}
 								mysqli_close($koneksi);

@@ -1,5 +1,11 @@
 <?php
 
+if (!session_id()) session_start();
+if (!$_SESSION['logon']){ 
+    header("Location:index.php");
+    die();
+}
+
 //ggwp
 
 require_once('lib/DBClass.php');
@@ -13,9 +19,53 @@ if(isset($_POST['kirim'])){
 	$NamaProduk	= $_POST['in_NamaProduk'];
 	$Harga 		= $_POST['in_Harga'];
 	$Deskripsi 	= $_POST['in_Deskripsi'];
-	$Foto		= $_POST['in_Foto'];
 	
-	$tambah = $produk->createProduk('',$IdBrand, $IdKategori, $NamaProduk, $Harga, $Deskripsi, $Foto);
+	
+	// Pengecekan file $foto
+	$target_dir = "uploads/";
+	$target_file = $target_dir . basename($_FILES["in_Foto"]["name"]);
+	$uploadOk = 1;
+	$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+	// Check if image file is a actual image or fake image
+	if(isset($_POST["submit"])) {
+		$check = getimagesize($_FILES["in_Foto"]["tmp_name"]);
+		if($check !== false) {
+			echo "File is an image - " . $check["mime"] . ".";
+			$uploadOk = 1;
+		} else {
+			echo "File is not an image.";
+			$uploadOk = 0;
+		}
+	}
+	// Check if file already exists
+	if (file_exists($target_file)) {
+		echo "Sorry, file already exists.";
+		$uploadOk = 0;
+	}
+	// Check file size
+	if ($_FILES["in_Foto"]["size"] > 2000000) {
+		echo "Sorry, your file is too large.";
+		$uploadOk = 0;
+	}
+	// Allow certain file formats
+	if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+		&& $imageFileType != "gif" ) {
+		echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+		$uploadOk = 0;
+}
+	// Check if $uploadOk is set to 0 by an error
+	if ($uploadOk == 0) {
+		echo "Sorry, your file was not uploaded.";
+	// if everything is ok, try to upload file
+	} else {
+    if (move_uploaded_file($_FILES["in_Foto"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["in_Foto"]["name"]). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+		}
+	}
+	$Foto	= $_FILES['in_Foto']["name"];
+	$tambah = $produk->createProduk($IdBrand, $IdKategori, $NamaProduk, $Harga, $Deskripsi, $Foto, '');
 	echo "Data Produk berhasil ditambahkan";
 }
 ?>
@@ -52,7 +102,7 @@ if(isset($_POST['kirim'])){
 	           <div class="col-md-5">
 	              <!-- Logo -->
 	              <div class="logo">
-	                 <h1><a href="index.html">Bootstrap Admin Theme</a></h1>
+	                 <h1><a href="dashboard.php">Bootstrap Admin Theme</a></h1>
 	              </div>
 	           </div>
 	           <div class="col-md-5">
@@ -74,8 +124,7 @@ if(isset($_POST['kirim'])){
 	                      <li class="dropdown">
 	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
 	                        <ul class="dropdown-menu animated fadeInUp">
-	                          <li><a href="profile.html">Profile</a></li>
-	                          <li><a href="login.html">Logout</a></li>
+	                          <li><a href="logout.php">Logout</a></li>
 	                        </ul>
 	                      </li>
 	                    </ul>
@@ -93,7 +142,7 @@ if(isset($_POST['kirim'])){
 		  	<div class="sidebar content-box" style="display: block;">
                 <ul class="nav">
                     <!-- Main menu -->
-                    <li><a href="index.html"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+                    <li><a href="dashboard.php"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
                     <li class="current"><a href="tambah_produk.php"><i class="glyphicon glyphicon-calendar"></i> Tambah Produk</a></li>
                     <li><a href="daftar_produk.php"><i class="glyphicon glyphicon-stats"></i> Daftar Produk</a></li>
                     <li><a href="feedback.php"><i class="glyphicon glyphicon-list"></i> Feedback</a></li>
@@ -114,7 +163,7 @@ if(isset($_POST['kirim'])){
 					        </div>
 							
 			  				<div class="panel-body">
-			  					<form action="tambah_produk.php" method="post">
+			  					<form action="tambah_produk.php" method="post" enctype="multipart/form-data">
 									<fieldset>
 										<div class="form-group">
 											<label>Brand</label><br />
@@ -137,23 +186,23 @@ if(isset($_POST['kirim'])){
 										
 										<div class="form-group">
 											<label>Nama Produk</label>
-											<input class="form-control" placeholder="Nama Produk" type="text" name="in_NamaProduk">
+											<input class="form-control" placeholder="Nama Produk" type="text" name="in_NamaProduk" required="">
 										</div>
 										
 										<div class="form-group">
 											<label>Harga</label>
-											<input class="form-control" placeholder="Harga" type="text" name="in_Harga">
+											<input class="form-control" placeholder="Harga" type="text" name="in_Harga" required="">
 										</div>
 										
 										<div class="form-group">
 											<label>Deskripsi</label>
-											<textarea name="in_Deskripsi" class="form-control" placeholder="Deskripsi" rows="3"></textarea>
+											<textarea name="in_Deskripsi" class="form-control" placeholder="Deskripsi" rows="3" required=""></textarea>
 										</div>
 										
 										<div class="form-group">
 											<label class="col-md-2 control-label">Upload Gambar</label>
 											<div class="col-md-10">
-												<input type="file" class="btn btn-default" id="exampleInputFile1" name="in_Foto">
+												<input type="file" class="btn btn-default" id="in_Foto" name="in_Foto" required="">
 												<p class="help-block">
 													Pilih gambar sesuai dengan produk yang diinput
 												</p>

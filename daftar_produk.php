@@ -1,5 +1,11 @@
 <?php
 
+if (!session_id()) session_start();
+if (!$_SESSION['logon']){ 
+    header("Location:index.php");
+    die();
+}
+
 require_once('lib/DBClass.php');
 require_once('lib/m_produk.php');
 
@@ -37,7 +43,7 @@ $data = $siswa->readAllKategori();
 	           <div class="col-md-5">
 	              <!-- Logo -->
 	              <div class="logo">
-	                 <h1><a href="index.html">Bootstrap Admin Theme</a></h1>
+	                 <h1><a href="dashboard.php">Bootstrap Admin Theme</a></h1>
 	              </div>
 	           </div>
 	           <div class="col-md-5">
@@ -59,8 +65,7 @@ $data = $siswa->readAllKategori();
 	                      <li class="dropdown">
 	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
 	                        <ul class="dropdown-menu animated fadeInUp">
-	                          <li><a href="profile.html">Profile</a></li>
-	                          <li><a href="login.html">Logout</a></li>
+	                          <li><a href="logout.php">Logout</a></li>
 	                        </ul>
 	                      </li>
 	                    </ul>
@@ -77,7 +82,7 @@ $data = $siswa->readAllKategori();
 		  	<div class="sidebar content-box" style="display: block;">
                 <ul class="nav">
                     <!-- Main menu -->
-                    <li><a href="index.html"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+                    <li><a href="dashboard.php"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
                     <li><a href="tambah_produk.php"><i class="glyphicon glyphicon-calendar"></i> Tambah Produk</a></li>
                     <li class="current"><a href="daftar_produk.php"><i class="glyphicon glyphicon-stats"></i> Daftar Produk</a></li>
                     <li><a href="feedback.php"><i class="glyphicon glyphicon-list"></i> Feedback</a></li>
@@ -90,7 +95,7 @@ $data = $siswa->readAllKategori();
   				
   					<div class="content-box-large">
 		  				<div class="panel-heading">
-							<div class="panel-title">Daftar Produk</div>
+							<div class="panel-title">Feedback</div>
 							
 							<div class="panel-options">
 								<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
@@ -107,19 +112,17 @@ $data = $siswa->readAllKategori();
 				                  <th>Name</th>
 				                  <th>Harga</th>
 				                  <th>Deskripsi</th>
-				                  <th>Opsi</th>
 				                </tr>
 				              </thead>
 				              <tbody>
 				                <?php
 									include('koneksi.php');	
 
-									$query = mysqli_query($koneksi, "SELECT * FROM produk JOIN brand on produk.idbrand = brand.idbrand JOIN kategori on produk.idKategori = kategori.idKategori ORDER BY idproduk DESC") or die(mysqli_error());
+									$query = mysqli_query($koneksi, "SELECT * FROM produk JOIN kategori JOIN brand ON Produk.IdKategori = Kategori.IdKategori AND Produk.IdBrand = Brand.IdBrand ORDER BY IdProduk DESC") or die(mysqli_error());
 
 									if (mysqli_num_rows($query) == 0) { 
 										echo '<tr><td colspan="6">Tidak ada data!</td></tr>';
 									} else {
-										
 										while ( $data = mysqli_fetch_assoc($query)) {
 											echo "<tr>";
 											echo "<td>".$data['IdProduk']."</td>";
@@ -128,16 +131,16 @@ $data = $siswa->readAllKategori();
 											echo "<td>".$data['NamaProduk']."</td>";
 											echo "<td>".$data['Harga']."</td>";
 											echo "<td>".$data['Deskripsi']."</td>";
-											echo '<td><a href="edit_produk.php?id='.$data['IdProduk'].'">Edit</a> / <a href="hapus.php?id='.$data['IdProduk'].'" onclick="return confirm(\'Apakah anda yakin ingin menghapus data?\')">Hapus</a></td>';
-											echo '</tr>';
-
+											echo '<td><a href="update_produk.php?a='.$data['IdProduk'].'">Edit</a></td>';
+											echo '<td><a href="hapus.php?a='.$data['IdProduk'].'" onclick="return confirm(\'Apakah anda yakin ingin menghapus data?\')">Hapus</a></td>';
 											
+											echo '</tr>';
 
 									}
 								}
 								mysqli_close($koneksi);
 								?>
-				              
+				              </tbody>
 				            </table>
 		  				</div>
 		  			</div>
