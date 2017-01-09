@@ -1,7 +1,7 @@
 Tugas Final Project Pemrograman Web Lanjut
 Dosen : Arif Dwi Laksito
 =====================
-Web GearingGamingShop <br >
+Web Profile GearingGamingShop <br >
 Kelompok 19 :
   - Fathul Ma'arif                14.11.7805
   - Haswanda Imawan               14.11.7808
