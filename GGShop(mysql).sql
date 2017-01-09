@@ -60,6 +60,6 @@ INSERT INTO `brand`(`IdBrand`, `NamaBrand`) VALUES (3,'Logitech');
 
 INSERT INTO `admin`(`username`, `password`) VALUES ('admin','admin');
 
-INSERT INTO `feedback`(`Nama`, `Email`, `NoTelp`, `Komentar`) VALUES ('Paijo', 'paijo@paijo.com', 089089089089, 'Bagus produknya, lengkap dengan garansi yang gampang diklaim' )
+INSERT INTO `feedback`(`Name`, `Email`, `Phone`, `Message`) VALUES ('Paijo', 'paijo@paijo.com', 089089089089, 'Bagus produknya, lengkap dengan garansi yang gampang diklaim' )
 
 INSERT INTO `contact`(`Email`, `NoTelp`, `Alamat`) VALUES ('gearinggs@gmail.com', 080989999, 'Jl. Gajah Mungkur no. 10')
