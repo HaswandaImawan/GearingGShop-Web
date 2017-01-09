@@ -43,8 +43,7 @@ NoTelp int not null,
 Alamat varchar(100) not null
 );
 
-CREATE TABLE Administrator(
-IdAdministrator varchar(2) not null,
+CREATE TABLE admin(
 username varchar(60) not null,
 password varchar(15) not null
 );
